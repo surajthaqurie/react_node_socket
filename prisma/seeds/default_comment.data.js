@@ -7,12 +7,16 @@ exports.default_comments = async () => {
       content: "comment 1",
       user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf57",
       post_id: "65b55519-3d06-4fe8-a9ea-cac63474cf57",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: "67b55519-3d06-4fe8-a9ea-cac63474cf51",
       content: "comment 2",
       user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf58",
       post_id: "65b55519-3d06-4fe8-a9ea-cac63474cf57",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
 

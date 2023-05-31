@@ -4,6 +4,8 @@ CREATE TABLE "Users" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
@@ -14,6 +16,8 @@ CREATE TABLE "Post" (
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "user_id" TEXT NOT NULL,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
@@ -23,6 +27,8 @@ CREATE TABLE "Post" (
 CREATE TABLE "Comment" (
     "id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "user_id" TEXT NOT NULL,
     "post_id" TEXT NOT NULL,
 

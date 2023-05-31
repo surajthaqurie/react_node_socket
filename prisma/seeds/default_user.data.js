@@ -7,18 +7,24 @@ exports.default_users = async () => {
       name: "user 1",
       email: "user1@email.com",
       phone: "0000000001",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: "55b55519-3d06-4fe8-a9ea-cac63474cf58",
       name: "user 2",
       email: "user2@email.com",
       phone: "0000000002",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: "55b55519-3d06-4fe8-a9ea-cac63474cf59",
       name: "user 3",
       email: "user3@email.com",
       phone: "0000000003",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
 

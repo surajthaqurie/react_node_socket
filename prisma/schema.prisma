@@ -8,19 +8,24 @@ datasource db {
 }
 
 model Users {
-  id      String    @id @unique @default(uuid())
-  name    String
-  email   String    @unique
-  phone   String    @unique
+  id        String   @id @unique @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   Post    Post[]
   Comment Comment[]
 }
 
 model Post {
-  id        String  @id @unique @default(uuid())
+  id        String   @id @unique @default(uuid())
   title     String
   content   String
-  published Boolean @default(false)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User    Users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String
@@ -28,8 +33,10 @@ model Post {
 }
 
 model Comment {
-  id      String @id @unique @default(uuid())
-  content String
+  id        String   @id @unique @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user_id String
   User    Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
