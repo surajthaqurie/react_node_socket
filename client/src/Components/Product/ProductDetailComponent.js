@@ -2,21 +2,27 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import AddComment from "../Comment/AddCommentComponent";
+import { socket } from "../../App";
 
 function PostDetailsComponent() {
   const { id } = useParams();
 
+  const [data, setData] = useState("");
   const API_URL = process.env.REACT_APP_API_URL + "/post/" + id;
   const [post, setPost] = useState([]);
 
   useEffect(() => {
     axios.get(API_URL).then(({ data }) => {
+      socket.on("FromAPI", (data) => {
+        setData(data);
+      });
       setPost(data.data);
     });
   }, []);
 
   return (
     <div>
+      <p>{data}</p>
       <section style={{ backgroundColor: " #eee" }}>
         <div className="container my-5 py-5">
           <div className="row d-flex justify-content-center">

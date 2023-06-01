@@ -32,3 +32,14 @@ exports.addComment = async (req, res) => {
     data: comment,
   });
 };
+
+exports.addCommentWithSocket = (io) => {
+  io.on("connection", (socket) => {
+    console.log("Client connected:", socket.id);
+    socket.emit("FromAPI", "hello");
+
+    socket.on("disconnect", (reason) => {
+      console.log("Client disconnected:", socket.id, "Reason:", reason);
+    });
+  });
+};

@@ -3,12 +3,12 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PostComponent from "./Components/Product/ProductComponent";
 import PostDetailsComponent from "./Components/Product/ProductDetailComponent";
+import socketIOClient from "socket.io-client";
 
-const socket = require("socket.io-client")("http://localhost:4001");
-
-socket.on("connect_error", (err) => {
-  console.log(`connect_error due to ${err.message}`);
+export const socket = socketIOClient("http://localhost:4001", {
+  reconnection: true,
 });
+
 function App() {
   return (
     <>
