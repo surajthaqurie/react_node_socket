@@ -42,6 +42,7 @@ exports.addCommentWithSocket = (io) => {
     socket.on("sendComment:new", async (data) => {
       console.log(data);
       const post = await prisma.post.findUnique({ where: { id: data.postId } });
+
       if (!post) {
         // Error Handling
         console.log("Post record not found");
@@ -62,7 +63,7 @@ exports.addCommentWithSocket = (io) => {
       }
 
       // comments.push(comment);
-      io.emit("new-comment", comment);
+      io.emit(post.id + ":comment-receive", comment);
     });
 
     socket.on("disconnect", (reason) => {

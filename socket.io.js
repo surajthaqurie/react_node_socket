@@ -14,5 +14,3 @@ const socketIOInit = (server) => {
 };
 
 module.exports = socketIOInit;
-
-// Socket middleware

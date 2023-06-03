@@ -1,24 +1,21 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { socket } from "../../App";
 
 const AddComment = ({ postId }) => {
-  const API_URL = process.env.REACT_APP_API_URL + "/comment/" + postId;
   const [comment, setComment] = useState({ content: "" });
 
   const handleChange = (event) => {
     setComment({ content: event.target.value });
   };
 
-  const postComment = () => {
-    axios
-      .post(API_URL, {
-        ...comment,
-        user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf57",
-        // user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf58",
-      })
-      .then((data) => {
-        console.log(data);
-      });
+  const handleNewComment = () => {
+    socket.emit("sendComment:new", {
+      postId: postId,
+      ...comment,
+      user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf57",
+    });
+
+    setComment({ content: "" });
   };
 
   return (
@@ -42,7 +39,7 @@ const AddComment = ({ postId }) => {
       <div className="float-end mt-2 pt-1">
         <button
           type="button"
-          onClick={postComment}
+          onClick={handleNewComment}
           className="btn btn-primary btn-sm"
         >
           Comment
