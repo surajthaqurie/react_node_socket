@@ -7,6 +7,7 @@ import socketIOClient from "socket.io-client";
 
 export const socket = socketIOClient("http://localhost:4001", {
   reconnection: true,
+  transports: ["websocket"], // or [ "websocket", "polling" ] (the order matters)
 });
 
 function App() {

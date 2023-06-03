@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 // import AddComment from "../Comment/AddCommentComponent";
@@ -10,35 +10,37 @@ function PostDetailsComponent() {
   const API_URL = process.env.REACT_APP_API_URL + "/post/" + id;
   const [post, setPost] = useState({});
   const [comment, setComment] = useState({ content: "" });
+
   const handleChange = (event) => {
     setComment({ content: event.target.value });
   };
 
-  const postComment = () => {
-    // axios
-    //   .post(API_URL, {
-    //     ...comment,
-    //     user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf57",
-    //     // user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf58",
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   });
-    socket.emit(socket.id, {
+  const handleNewComment = () => {
+    socket.emit("sendComment:new", {
       postId: post.id,
       ...comment,
       user_id: "55b55519-3d06-4fe8-a9ea-cac63474cf57",
     });
 
-    socket.on(post.id, (comment) => {
-      post.Comment.push(comment);
-      setPost({ ...post });
-    });
+    setComment({ content: "" });
   };
 
   useEffect(() => {
     axios.get(API_URL).then(({ data }) => {
       setPost(data.data);
+
+      socket.on("new-comment", (receivedData) => {
+        console.log("Received comments:", receivedData);
+
+        // Update the comments state with the received comments
+        data.data.Comment.push(receivedData);
+        setPost({ ...data.data });
+      });
+
+      // Clean up the socket connection on component unmount
+      // return () => {
+      //   socket.disconnect();
+      // };
     });
   }, []);
 
@@ -103,7 +105,7 @@ function PostDetailsComponent() {
                   <div className="float-end mt-2 pt-1">
                     <button
                       type="button"
-                      onClick={postComment}
+                      onClick={handleNewComment}
                       className="btn btn-primary btn-sm"
                     >
                       Comment
