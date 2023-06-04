@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import AddComment from "../Comment/AddCommentComponent";
@@ -9,21 +9,27 @@ function PostDetailsComponent() {
 
   const API_URL = process.env.REACT_APP_API_URL + "/post/" + id;
   const [post, setPost] = useState({});
-
+  const getPostDetails = async () => {
+    const { data } = await axios.get(API_URL);
+    setPost(data.data);
+    socket.on(data.data.id + ":comment-receive", (receivedData) => {
+      setPost(receivedData);
+    });
+  };
   useEffect(() => {
-    axios.get(API_URL).then(({ data }) => {
-      setPost(data.data);
-    });
+    (async () => {
+      await getPostDetails();
+    })();
 
-    socket.on(post.id + ":comment-receive", (receivedData) => {
-      post.Comment.push(receivedData);
-      setPost({ ...post });
-    });
+    // socket.on(post.id + ":comment-receive", (receivedData) => {
+    //   // post.Comment.push(receivedData);
+    //   // setPost({ ...post });
+    // });
 
     // return () => {
     //   socket.disconnect();
     // };
-  }, [API_URL, post]);
+  }, [post?.Comment?.length]);
 
   return (
     <div>
@@ -43,7 +49,7 @@ function PostDetailsComponent() {
                   <p className="mt-3 mb-1 pb-2">{post.content}</p>
                 </div>
                 {post &&
-                  post.Comment &&
+                  post?.Comment?.length > 0 &&
                   post.Comment.map((comment) => {
                     return (
                       <div className="d-flex flex-start mt-4" key={comment.id}>

@@ -25,7 +25,6 @@ exports.addTIcketCommentIO = async (io) => {
         // Error Handling
         console.log("Unable to add comment");
       }
-
       io.emit(post.id + ":comment-receive", comment);
     });
 
