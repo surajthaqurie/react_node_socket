@@ -1,4 +1,6 @@
-exports.addTIcketCommentIO = (io) => {
+const { prisma } = require("../db.connection");
+
+exports.addTIcketCommentIO = async (io) => {
   io.on("connection", (socket) => {
     console.log("Client connected:", socket.id);
 
