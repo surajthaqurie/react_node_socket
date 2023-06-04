@@ -1,5 +1,5 @@
 const { Server } = require("socket.io");
-const { addCommentWithSocket } = require("./controller/comment.controller");
+const { addTIcketCommentIO } = require("./ticketComment.io");
 
 const socketIOInit = (server) => {
   const io = new Server(server, {
@@ -10,7 +10,7 @@ const socketIOInit = (server) => {
     },
   });
 
-  addCommentWithSocket(io);
+  addTIcketCommentIO(io);
 };
 
 module.exports = socketIOInit;
