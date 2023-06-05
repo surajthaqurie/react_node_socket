@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import AddComment from "../Comment/AddCommentComponent";
@@ -7,25 +7,27 @@ import { socket } from "../../App";
 function PostDetailsComponent() {
   const { id } = useParams();
 
-  const API_URL = process.env.REACT_APP_API_URL + "/post/" + id;
+  const API_URL = process.env.REACT_APP_API_URL + "/api/v1/post/" + id;
   const [post, setPost] = useState({});
 
-  const newPost = useCallback(async () => {
+  const getPostDetails = async () => {
     const { data } = await axios.get(API_URL);
     setPost(data.data);
 
     socket.on(data.data.id + ":comment-receive", (receivedData) => {
       setPost(receivedData);
     });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [post]);
+  };
 
   useEffect(() => {
-    newPost();
-  }, [newPost]);
+    (async () => {
+      await getPostDetails();
+    })();
+
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [post?.Comment?.length]);
 
   return (
     <div>
@@ -62,6 +64,13 @@ function PostDetailsComponent() {
                               </p>
                             </div>
                             <p className="small mb-0">{comment.content}</p>
+                            {comment.file && (
+                              <img
+                                src={`${process.env.REACT_APP_API_URL}${comment.file}`}
+                                alt="photo-1"
+                                className="img-thumbnail"
+                              />
+                            )}
                           </div>
                         </div>
                       </div>

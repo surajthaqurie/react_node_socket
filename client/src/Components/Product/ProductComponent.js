@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 function PostComponent() {
-  const API_URL = process.env.REACT_APP_API_URL + "/post";
+  const API_URL = process.env.REACT_APP_API_URL + "/api/v1/post";
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

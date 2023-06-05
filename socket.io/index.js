@@ -14,7 +14,7 @@ const socketIOInit = (server) => {
   io.on("connection", async (socket) => {
     console.log("Client connected:", socket.id);
 
-    await addTIcketCommentIO(socket);
+    await addTIcketCommentIO(socket, io);
 
     socket.on("disconnect", (reason) => {
       console.log("Client disconnected:", socket.id, "Reason:", reason);

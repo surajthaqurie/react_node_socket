@@ -5,7 +5,7 @@ import PostComponent from "./Components/Product/ProductComponent";
 import PostDetailsComponent from "./Components/Product/ProductDetailComponent";
 import socketIOClient from "socket.io-client";
 
-export const socket = socketIOClient("http://localhost:4001", {
+export const socket = socketIOClient(process.env.REACT_APP_API_URL, {
   reconnection: true,
   transports: ["websocket"], // or [ "websocket", "polling" ] (the order matters)
 });

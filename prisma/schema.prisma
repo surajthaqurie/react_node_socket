@@ -8,15 +8,14 @@ datasource db {
 }
 
 model Users {
-  id        String   @id @unique @default(uuid())
+  id        String    @id @unique @default(uuid())
   name      String
-  email     String   @unique
-  phone     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Post    Post[]
-  Comment Comment[]
+  email     String    @unique
+  phone     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Comment   Comment[]
+  Post      Post[]
 }
 
 model Post {
@@ -26,21 +25,22 @@ model Post {
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user_id   String
 
-  User    Users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id String
   Comment Comment[]
+  User    Users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Comment {
-  id        String   @id @unique @default(uuid())
-  content   String
+  id      String   @id @unique @default(uuid())
+  content String
+  file    String?
+  files   String[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user_id String
-  User    Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  post_id String
-  Post    Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  user_id   String
+  post_id   String
+  Post      Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  User      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
