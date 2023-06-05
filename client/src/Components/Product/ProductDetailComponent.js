@@ -9,27 +9,23 @@ function PostDetailsComponent() {
 
   const API_URL = process.env.REACT_APP_API_URL + "/post/" + id;
   const [post, setPost] = useState({});
-  const getPostDetails = async () => {
+
+  const newPost = useCallback(async () => {
     const { data } = await axios.get(API_URL);
     setPost(data.data);
+
     socket.on(data.data.id + ":comment-receive", (receivedData) => {
       setPost(receivedData);
     });
-  };
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [post]);
+
   useEffect(() => {
-    (async () => {
-      await getPostDetails();
-    })();
-
-    // socket.on(post.id + ":comment-receive", (receivedData) => {
-    //   // post.Comment.push(receivedData);
-    //   // setPost({ ...post });
-    // });
-
-    // return () => {
-    //   socket.disconnect();
-    // };
-  }, [post?.Comment?.length]);
+    newPost();
+  }, [newPost]);
 
   return (
     <div>

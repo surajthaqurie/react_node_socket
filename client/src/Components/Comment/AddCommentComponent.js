@@ -39,9 +39,7 @@ const AddComment = ({ postId }) => {
       <div className="float-end mt-2 pt-1">
         <button
           type="button"
-          onClick={() => {
-            handleNewComment();
-          }}
+          onClick={handleNewComment}
           className="btn btn-primary btn-sm"
         >
           Comment
