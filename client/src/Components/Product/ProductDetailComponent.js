@@ -9,13 +9,17 @@ function PostDetailsComponent() {
 
   const API_URL = process.env.REACT_APP_API_URL + "/api/v1/post/" + id;
   const [post, setPost] = useState({});
-
+  const [error, setError] = useState();
   const getPostDetails = async () => {
     const { data } = await axios.get(API_URL);
     setPost(data.data);
 
     socket.on(data.data.id + ":comment-receive", (receivedData) => {
       setPost(receivedData);
+    });
+
+    socket.on("sendComment:error", (error) => {
+      console.log(error);
     });
   };
 

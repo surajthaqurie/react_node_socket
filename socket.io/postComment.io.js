@@ -2,11 +2,23 @@ const { prisma } = require("../db.connection");
 const { writeFile, open } = require("fs");
 const path = require("path");
 const { generateRandomFileName } = require("../utils");
+const {
+  postCommentValidation,
+} = require("./validation/postComment.validation");
 
 exports.addTIcketCommentIO = async (socket, io) => {
   let filePath = "";
 
   socket.on("sendComment:new", async (data) => {
+    const { error, value } = postCommentValidation(data);
+    if (error) {
+      console.log(error.details[0].message);
+      return (
+        io
+          // .to(socket.id)
+          .emit("sendComment:error", error.details[0].message)
+      );
+    }
     if (Object.keys(data.file).length) {
       const dir = path.resolve(__dirname, `../public`);
       filePath = dir + "/" + generateRandomFileName(data.file.fileName);
