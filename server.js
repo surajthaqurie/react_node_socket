@@ -9,4 +9,5 @@ socketIOInit(server);
 
 server.listen(PORT, () => {
   console.info(`Server is running on http://localhost:${PORT}`);
+  // redisClient.quit();
 });
