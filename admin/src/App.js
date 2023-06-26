@@ -12,7 +12,7 @@ import "../node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 
 export const socket = socketIOClient(process.env.REACT_APP_API_URL, {
   reconnection: true,
-  transports: ["websocket"], // or [ "websocket", "polling" ] (the order matters)
+  transports: ["websocket"], // or [ "websocket", "polling" ] (the order matters),
 });
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      Player Dashboard
+      Admin Dashboard
       <Routes>
         {renderHomeRoute}
         {/* <Route path="/product/:id" element={<PostDetailsComponent />} /> */}
